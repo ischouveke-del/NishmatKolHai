@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Nishmat Kol Chai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --bg: #edf0f4;
+    --surface: #ffffff;
+    --ink: #18212f;
+    --muted: #55607a;
+    --line: #d3dae6;
+    --off: #e3e8f0;
+    --yellow: #f0bc1b;
+    --yellow-ink: #2b2200;
+    --yellow-soft: #fdf3cc;
+    --green: #1b7f45;
+    --green-ink: #ffffff;
+    --green-soft: #dcf2e4;
+    --focus: #2b5fd9;
+    --font-display: "Frank Ruhl Libre", "Times New Roman", serif;
+    --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e131c;
+      --surface: #171e2a;
+      --ink: #e8ecf3;
+      --muted: #9aa6b8;
+      --line: #2a3345;
+      --off: #121823;
+      --yellow: #e6b422;
+      --yellow-ink: #241b00;
+      --yellow-soft: #2b2610;
+      --green: #35b26c;
+      --green-ink: #03150a;
+      --green-soft: #12301f;
+      --focus: #7aa2ff;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e131c;
+    --surface: #171e2a;
+    --ink: #e8ecf3;
+    --muted: #9aa6b8;
+    --line: #2a3345;
+    --off: #121823;
+    --yellow: #e6b422;
+    --yellow-ink: #241b00;
+    --yellow-soft: #2b2610;
+    --green: #35b26c;
+    --green-ink: #03150a;
+    --green-soft: #12301f;
+    --focus: #7aa2ff;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 0 auto;
+    max-width: 980px;
+    padding-inline: 16px;
+    padding-block: 28px 56px;
+  }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  header { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+  .eyebrow {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 8vw, 3.4rem);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  .intro { margin: 0; max-width: 62ch; color: var(--muted); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-weight: 600; font-size: 0.92rem; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 16px; height: 16px; border-radius: 4px; display: inline-block; }
+  .legend .ly { background: var(--yellow); }
+  .legend .lg { background: var(--green); }
+
+  .meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+  .meter { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+  .meter-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; font-weight: 600; }
+  .meter-top span:last-child { font-variant-numeric: tabular-nums; }
+  .track { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .fill { height: 100%; width: 0; border-radius: 99px; transition: width 0.25s ease; }
+  .fill.y { background: var(--yellow); }
+  .fill.g { background: var(--green); }
+
+  .month { margin-top: 28px; }
+  .month-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 2px 14px;
+    margin-bottom: 10px;
+  }
+  .month-head h2 { margin: 0; font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; }
+  .month-head .heb { color: var(--muted); font-weight: 600; font-size: 0.95rem; }
+  .month-head .heb .he { font-family: var(--font-display); font-size: 1.05rem; }
+
+  .cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+  .wd {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-block: 4px;
+  }
+  .blank { min-height: 0; }
+  .cell {
+    background: var(--surface);
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .cell.off { background: var(--off); border-color: transparent; min-height: 0; justify-content: flex-start; }
+  .cell.off .civ { color: var(--muted); opacity: 0.6; }
+  .cell.full { border-color: var(--green); }
+  .cell.today { box-shadow: 0 0 0 3px var(--focus); }
+  .cell.sat .civ { color: var(--muted); }
+
+  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 2px; min-width: 0; }
+  .civ { font-size: 1rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .hd { font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; color: var(--muted); line-height: 1.1; white-space: nowrap; }
+  .hm { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; line-height: 1.1; color: var(--ink); text-align: right; }
+  .hm:empty { display: none; }
+
+  .chk {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 30px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .chk.y { background: var(--yellow-soft); border-color: var(--yellow); }
+  .chk.y[aria-pressed="true"] { background: var(--yellow); color: var(--yellow-ink); }
+  .chk.g { background: var(--green-soft); border-color: var(--green); }
+  .chk.g[aria-pressed="true"] { background: var(--green); color: var(--green-ink); }
+  .chk::after { content: ""; }
+  .chk[aria-pressed="true"]::after { content: "👍"; font-size: 1.15em; animation: pop 0.2s ease; }
+  @keyframes pop { 0% { transform: scale(0.4); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
+  .chk:active { transform: scale(0.96); }
+
+  footer { margin-top: 36px; display: flex; flex-direction: column; gap: 6px; color: var(--muted); font-size: 0.88rem; }
+  footer p { margin: 0; max-width: 70ch; }
+
+  @media (min-width: 640px) {
+    .cal { gap: 6px; }
+    .cell { padding: 8px; gap: 6px; border-radius: 10px; }
+    .civ { font-size: 1.15rem; }
+    .hd { font-size: 1rem; }
+    .hm { font-size: 0.82rem; }
+    .chk { min-height: 38px; font-size: 1rem; }
+  }
+  @media (max-width: 380px) {
+    .cal { gap: 3px; }
+    .cell { padding: 3px; }
+    .hd { font-size: 0.72rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fill, .chk { transition: none; }
+    .chk[aria-pressed="true"]::after { animation: none; }
+    .chk:active { transform: none; }
+  }
+</style>
+
+<header>
+  <p class="eyebrow" id="eyebrow">07/10/2026 a 16/11/2026 · 26 Tishrei a 6 Kislev 5787</p>
+  <h1>Nishmat Kol Chai</h1>
+  <p class="intro">Cada dia mostra a data civil em cima e a data hebraica ao lado. Toque no quadrado amarelo para marcar o Mizmor LeToda e no verde para marcar o Nishmat Kol Chai. Vai aparecer um joia 👍. Toque de novo para desmarcar.</p>
+  <div class="legend">
+    <span><i class="ly"></i>Mizmor LeToda</span>
+    <span><i class="lg"></i>Nishmat Kol Chai</span>
+  </div>
+  <div class="meters">
+    <div class="meter">
+      <div class="meter-top"><span>Mizmor LeToda</span><span id="cy">0 / 41</span></div>
+      <div class="track"><div class="fill y" id="fy"></div></div>
+    </div>
+    <div class="meter">
+      <div class="meter-top"><span>Nishmat Kol Chai</span><span id="cg">0 / 41</span></div>
+      <div class="track"><div class="fill g" id="fg"></div></div>
+    </div>
+  </div>
+</header>
+
+<main id="months"></main>
+<noscript><p style="margin-top:24px;font-weight:600">Para marcar os dias, abra este arquivo no navegador do celular (Chrome ou Safari). Este visualizador só mostra o calendário, sem os toques.</p></noscript>
+
+<footer>
+  <p id="status" aria-live="polite">Para marcar, abra este arquivo no navegador. O progresso fica salvo só neste aparelho.</p>
+  <p>A data hebraica troca ao anoitecer. Se você faz à noite, o dia hebraico pode ser o do dia seguinte na grade.</p>
+</footer>
+
+<script>
+  const DAYS = [{"n":1,"iso":"2026-10-07","civil":"07/10/2026","civilShort":"07/10","wdShort":"qua","hDay":26,"hLetters":"כ״ו","hMonthEn":"Tishrei","hMonthHe":"תשרי","hYear":"5787","hTr":"26 Tishrei 5787","shabbat":false,"rc":false},{"n":2,"iso":"2026-10-08","civil":"08/10/2026","civilShort":"08/10","wdShort":"qui","hDay":27,"hLetters":"כ״ז","hMonthEn":"Tishrei","hMonthHe":"תשרי","hYear":"5787","hTr":"27 Tishrei 5787","shabbat":false,"rc":false},{"n":3,"iso":"2026-10-09","civil":"09/10/2026","civilShort":"09/10","wdShort":"sex","hDay":28,"hLetters":"כ״ח","hMonthEn":"Tishrei","hMonthHe":"תשרי","hYear":"5787","hTr":"28 Tishrei 5787","shabbat":false,"rc":false},{"n":4,"iso":"2026-10-10","civil":"10/10/2026","civilShort":"10/10","wdShort":"sáb","hDay":29,"hLetters":"כ״ט","hMonthEn":"Tishrei","hMonthHe":"תשרי","hYear":"5787","hTr":"29 Tishrei 5787","shabbat":true,"rc":false},{"n":5,"iso":"2026-10-11","civil":"11/10/2026","civilShort":"11/10","wdShort":"dom","hDay":30,"hLetters":"ל׳","hMonthEn":"Tishrei","hMonthHe":"תשרי","hYear":"5787","hTr":"30 Tishrei 5787","shabbat":false,"rc":true},{"n":6,"iso":"2026-10-12","civil":"12/10/2026","civilShort":"12/10","wdShort":"seg","hDay":1,"hLetters":"א׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"1 Cheshvan 5787","shabbat":false,"rc":true},{"n":7,"iso":"2026-10-13","civil":"13/10/2026","civilShort":"13/10","wdShort":"ter","hDay":2,"hLetters":"ב׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"2 Cheshvan 5787","shabbat":false,"rc":false},{"n":8,"iso":"2026-10-14","civil":"14/10/2026","civilShort":"14/10","wdShort":"qua","hDay":3,"hLetters":"ג׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"3 Cheshvan 5787","shabbat":false,"rc":false},{"n":9,"iso":"2026-10-15","civil":"15/10/2026","civilShort":"15/10","wdShort":"qui","hDay":4,"hLetters":"ד׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"4 Cheshvan 5787","shabbat":false,"rc":false},{"n":10,"iso":"2026-10-16","civil":"16/10/2026","civilShort":"16/10","wdShort":"sex","hDay":5,"hLetters":"ה׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"5 Cheshvan 5787","shabbat":false,"rc":false},{"n":11,"iso":"2026-10-17","civil":"17/10/2026","civilShort":"17/10","wdShort":"sáb","hDay":6,"hLetters":"ו׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"6 Cheshvan 5787","shabbat":true,"rc":false},{"n":12,"iso":"2026-10-18","civil":"18/10/2026","civilShort":"18/10","wdShort":"dom","hDay":7,"hLetters":"ז׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"7 Cheshvan 5787","shabbat":false,"rc":false},{"n":13,"iso":"2026-10-19","civil":"19/10/2026","civilShort":"19/10","wdShort":"seg","hDay":8,"hLetters":"ח׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"8 Cheshvan 5787","shabbat":false,"rc":false},{"n":14,"iso":"2026-10-20","civil":"20/10/2026","civilShort":"20/10","wdShort":"ter","hDay":9,"hLetters":"ט׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"9 Cheshvan 5787","shabbat":false,"rc":false},{"n":15,"iso":"2026-10-21","civil":"21/10/2026","civilShort":"21/10","wdShort":"qua","hDay":10,"hLetters":"י׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"10 Cheshvan 5787","shabbat":false,"rc":false},{"n":16,"iso":"2026-10-22","civil":"22/10/2026","civilShort":"22/10","wdShort":"qui","hDay":11,"hLetters":"י״א","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"11 Cheshvan 5787","shabbat":false,"rc":false},{"n":17,"iso":"2026-10-23","civil":"23/10/2026","civilShort":"23/10","wdShort":"sex","hDay":12,"hLetters":"י״ב","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"12 Cheshvan 5787","shabbat":false,"rc":false},{"n":18,"iso":"2026-10-24","civil":"24/10/2026","civilShort":"24/10","wdShort":"sáb","hDay":13,"hLetters":"י״ג","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"13 Cheshvan 5787","shabbat":true,"rc":false},{"n":19,"iso":"2026-10-25","civil":"25/10/2026","civilShort":"25/10","wdShort":"dom","hDay":14,"hLetters":"י״ד","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"14 Cheshvan 5787","shabbat":false,"rc":false},{"n":20,"iso":"2026-10-26","civil":"26/10/2026","civilShort":"26/10","wdShort":"seg","hDay":15,"hLetters":"ט״ו","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"15 Cheshvan 5787","shabbat":false,"rc":false},{"n":21,"iso":"2026-10-27","civil":"27/10/2026","civilShort":"27/10","wdShort":"ter","hDay":16,"hLetters":"ט״ז","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"16 Cheshvan 5787","shabbat":false,"rc":false},{"n":22,"iso":"2026-10-28","civil":"28/10/2026","civilShort":"28/10","wdShort":"qua","hDay":17,"hLetters":"י״ז","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"17 Cheshvan 5787","shabbat":false,"rc":false},{"n":23,"iso":"2026-10-29","civil":"29/10/2026","civilShort":"29/10","wdShort":"qui","hDay":18,"hLetters":"י״ח","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"18 Cheshvan 5787","shabbat":false,"rc":false},{"n":24,"iso":"2026-10-30","civil":"30/10/2026","civilShort":"30/10","wdShort":"sex","hDay":19,"hLetters":"י״ט","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"19 Cheshvan 5787","shabbat":false,"rc":false},{"n":25,"iso":"2026-10-31","civil":"31/10/2026","civilShort":"31/10","wdShort":"sáb","hDay":20,"hLetters":"כ׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"20 Cheshvan 5787","shabbat":true,"rc":false},{"n":26,"iso":"2026-11-01","civil":"01/11/2026","civilShort":"01/11","wdShort":"dom","hDay":21,"hLetters":"כ״א","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"21 Cheshvan 5787","shabbat":false,"rc":false},{"n":27,"iso":"2026-11-02","civil":"02/11/2026","civilShort":"02/11","wdShort":"seg","hDay":22,"hLetters":"כ״ב","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"22 Cheshvan 5787","shabbat":false,"rc":false},{"n":28,"iso":"2026-11-03","civil":"03/11/2026","civilShort":"03/11","wdShort":"ter","hDay":23,"hLetters":"כ״ג","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"23 Cheshvan 5787","shabbat":false,"rc":false},{"n":29,"iso":"2026-11-04","civil":"04/11/2026","civilShort":"04/11","wdShort":"qua","hDay":24,"hLetters":"כ״ד","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"24 Cheshvan 5787","shabbat":false,"rc":false},{"n":30,"iso":"2026-11-05","civil":"05/11/2026","civilShort":"05/11","wdShort":"qui","hDay":25,"hLetters":"כ״ה","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"25 Cheshvan 5787","shabbat":false,"rc":false},{"n":31,"iso":"2026-11-06","civil":"06/11/2026","civilShort":"06/11","wdShort":"sex","hDay":26,"hLetters":"כ״ו","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"26 Cheshvan 5787","shabbat":false,"rc":false},{"n":32,"iso":"2026-11-07","civil":"07/11/2026","civilShort":"07/11","wdShort":"sáb","hDay":27,"hLetters":"כ״ז","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"27 Cheshvan 5787","shabbat":true,"rc":false},{"n":33,"iso":"2026-11-08","civil":"08/11/2026","civilShort":"08/11","wdShort":"dom","hDay":28,"hLetters":"כ״ח","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"28 Cheshvan 5787","shabbat":false,"rc":false},{"n":34,"iso":"2026-11-09","civil":"09/11/2026","civilShort":"09/11","wdShort":"seg","hDay":29,"hLetters":"כ״ט","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"29 Cheshvan 5787","shabbat":false,"rc":false},{"n":35,"iso":"2026-11-10","civil":"10/11/2026","civilShort":"10/11","wdShort":"ter","hDay":30,"hLetters":"ל׳","hMonthEn":"Cheshvan","hMonthHe":"חשוון","hYear":"5787","hTr":"30 Cheshvan 5787","shabbat":false,"rc":true},{"n":36,"iso":"2026-11-11","civil":"11/11/2026","civilShort":"11/11","wdShort":"qua","hDay":1,"hLetters":"א׳","hMonthEn":"Kislev","hMonthHe":"כסלו","hYear":"5787","hTr":"1 Kislev 5787","shabbat":false,"rc":true},{"n":37,"iso":"2026-11-12","civil":"12/11/2026","civilShort":"12/11","wdShort":"qui","hDay":2,"hLetters":"ב׳","hMonthEn":"Kislev","hMonthHe":"כסלו","hYear":"5787","hTr":"2 Kislev 5787","shabbat":false,"rc":false},{"n":38,"iso":"2026-11-13","civil":"13/11/2026","civilShort":"13/11","wdShort":"sex","hDay":3,"hLetters":"ג׳","hMonthEn":"Kislev","hMonthHe":"כסלו","hYear":"5787","hTr":"3 Kislev 5787","shabbat":false,"rc":false},{"n":39,"iso":"2026-11-14","civil":"14/11/2026","civilShort":"14/11","wdShort":"sáb","hDay":4,"hLetters":"ד׳","hMonthEn":"Kislev","hMonthHe":"כסלו","hYear":"5787","hTr":"4 Kislev 5787","shabbat":true,"rc":false},{"n":40,"iso":"2026-11-15","civil":"15/11/2026","civilShort":"15/11","wdShort":"dom","hDay":5,"hLetters":"ה׳","hMonthEn":"Kislev","hMonthHe":"כסלו","hYear":"5787","hTr":"5 Kislev 5787","shabbat":false,"rc":false},{"n":41,"iso":"2026-11-16","civil":"16/11/2026","civilShort":"16/11","wdShort":"seg","hDay":6,"hLetters":"ו׳","hMonthEn":"Kislev","hMonthHe":"כסלו","hYear":"5787","hTr":"6 Kislev 5787","shabbat":false,"rc":false}];
+  const KEY = "nishmat-kol-chai-v1";
+  const BY_ISO = {};
+  DAYS.forEach(function (d) { BY_ISO[d.iso] = d; });
+  const MONTHS = [
+    { y: 2026, m: 9, name: "Outubro" },
+    { y: 2026, m: 10, name: "Novembro" }
+  ];
+  const WD_HEAD = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+  let state = {};
+  let touched = false;
+  let ref = null;
+  let writing = false;
+  let dirty = false;
+
+  function lsLoad() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; }
+  }
+  function lsSave() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function pad(n) { return String(n).padStart(2, "0"); }
+  const now = new Date();
+  const TODAY = now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate());
+
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function button(d, kind) {
+    const b = el("button", "chk " + kind);
+    b.type = "button";
+    b.id = "b-" + kind + "-" + d.iso;
+    b.dataset.iso = d.iso;
+    b.dataset.kind = kind;
+    const name = kind === "y" ? "Mizmor LeToda" : "Nishmat Kol Chai";
+    b.setAttribute("aria-label", name + ", " + d.civil + ", " + d.hTr);
+    b.setAttribute("aria-pressed", "false");
+    return b;
+  }
+
+  function build() {
+    const root = document.getElementById("months");
+    MONTHS.forEach(function (M) {
+      const sec = el("section", "month");
+      const head = el("div", "month-head");
+      head.appendChild(el("h2", null, M.name + " " + M.y));
+      const inMonth = DAYS.filter(function (d) { return d.iso.slice(0, 7) === M.y + "-" + pad(M.m + 1); });
+      const seen = [];
+      inMonth.forEach(function (d) { if (!seen.some(function (s) { return s.en === d.hMonthEn; })) seen.push({ en: d.hMonthEn, he: d.hMonthHe }); });
+      const heb = el("span", "heb");
+      heb.appendChild(document.createTextNode(seen.map(function (s) { return s.en; }).join(" e ") + " " + inMonth[0].hYear + " · "));
+      const he = el("span", "he", seen.map(function (s) { return s.he; }).join(" · "));
+      he.lang = "he";
+      he.dir = "rtl";
+      heb.appendChild(he);
+      head.appendChild(heb);
+      sec.appendChild(head);
+
+      const cal = el("div", "cal");
+      WD_HEAD.forEach(function (w) { cal.appendChild(el("div", "wd", w)); });
+
+      const first = new Date(Date.UTC(M.y, M.m, 1));
+      const lead = first.getUTCDay();
+      const dim = new Date(Date.UTC(M.y, M.m + 1, 0)).getUTCDate();
+      for (let i = 0; i < lead; i++) cal.appendChild(el("div", "blank"));
+
+      for (let day = 1; day <= dim; day++) {
+        const iso = M.y + "-" + pad(M.m + 1) + "-" + pad(day);
+        const d = BY_ISO[iso];
+        const dow = new Date(Date.UTC(M.y, M.m, day)).getUTCDay();
+        if (!d) {
+          const off = el("div", "cell off");
+          off.appendChild(el("span", "civ", String(day)));
+          cal.appendChild(off);
+          continue;
+        }
+        const cell = el("div", "cell");
+        cell.id = "day-" + iso;
+        if (dow === 6) cell.classList.add("sat");
+        if (iso === TODAY) cell.classList.add("today");
+        const top = el("div", "top");
+        top.appendChild(el("span", "civ", String(day)));
+        const hd = el("span", "hd", d.hLetters);
+        hd.lang = "he";
+        hd.dir = "rtl";
+        top.appendChild(hd);
+        cell.appendChild(top);
+        const isFirstShown = d.n === 1;
+        const hm = el("div", "hm", (d.hDay === 1 || isFirstShown) ? d.hMonthHe : "");
+        hm.lang = "he";
+        hm.dir = "rtl";
+        cell.appendChild(hm);
+        cell.appendChild(button(d, "y"));
+        cell.appendChild(button(d, "g"));
+        cal.appendChild(cell);
+      }
+      sec.appendChild(cal);
+      root.appendChild(sec);
+    });
+    document.getElementById("eyebrow").textContent =
+      DAYS[0].civil + " a " + DAYS[DAYS.length - 1].civil + " · " + DAYS[0].hDay + " " + DAYS[0].hMonthEn + " a " + DAYS[DAYS.length - 1].hDay + " " + DAYS[DAYS.length - 1].hMonthEn + " " + DAYS[0].hYear;
+  }
+
+  function paint() {
+    let ny = 0, ng = 0;
+    DAYS.forEach(function (d) {
+      const s = state[d.iso] || {};
+      const y = !!s.y, g = !!s.g;
+      if (y) ny++;
+      if (g) ng++;
+      document.getElementById("b-y-" + d.iso).setAttribute("aria-pressed", y ? "true" : "false");
+      document.getElementById("b-g-" + d.iso).setAttribute("aria-pressed", g ? "true" : "false");
+      document.getElementById("day-" + d.iso).classList.toggle("full", y && g);
+    });
+    document.getElementById("cy").textContent = ny + " / " + DAYS.length;
+    document.getElementById("cg").textContent = ng + " / " + DAYS.length;
+    document.getElementById("fy").style.width = (ny / DAYS.length * 100) + "%";
+    document.getElementById("fg").style.width = (ng / DAYS.length * 100) + "%";
+  }
+
+  function setStatus(t) { document.getElementById("status").textContent = t; }
+
+  async function flush() {
+    if (!ref || writing) return;
+    writing = true;
+    try {
+      while (dirty) {
+        dirty = false;
+        await ref.set({ days: JSON.parse(JSON.stringify(state)) });
+      }
+      setStatus("Progresso salvo na sua conta e neste dispositivo.");
+    } catch (e) {
+      dirty = false;
+      setStatus("Progresso salvo só neste dispositivo. Não foi possível salvar na conta agora.");
+    }
+    writing = false;
+  }
+
+  document.getElementById("months").addEventListener("click", function (ev) {
+    const b = ev.target.closest("button.chk");
+    if (!b) return;
+    const iso = b.dataset.iso, kind = b.dataset.kind;
+    const s = Object.assign({}, state[iso] || {});
+    s[kind] = !s[kind];
+    if (!s.y && !s.g) { delete state[iso]; } else { state[iso] = s; }
+    touched = true;
+    lsSave();
+    paint();
+    if (ref) { dirty = true; setTimeout(flush, 350); }
+  });
+
+  if (!document.getElementById("months").children.length) build();
+  document.querySelectorAll(".cell.today").forEach(function (c) { c.classList.remove("today"); });
+  const tc = document.getElementById("day-" + TODAY);
+  if (tc) tc.classList.add("today");
+  state = lsLoad();
+  paint();
+  setStatus("Progresso salvo neste dispositivo.");
+
+  (async function connect() {
+    try {
+      if (!window.claude || !window.claude.use) return;
+      const db = await window.claude.use("db");
+      const user = await window.claude.use("user");
+      if (!db || !user) return;
+      const id = await user.id();
+      if (!id) return;
+      const r = db.collection("data/users/" + id).doc("progress");
+      const snap = await r.get();
+      if (snap.exists && !touched) {
+        const remote = (snap.data() || {}).days || {};
+        state = JSON.parse(JSON.stringify(remote));
+        lsSave();
+        paint();
+        ref = r;
+        setStatus("Progresso salvo na sua conta e neste dispositivo.");
+      } else {
+        ref = r;
+        dirty = true;
+        flush();
+      }
+    } catch (e) {
+      /* sem conta conectada: segue só com o armazenamento do dispositivo */
+    }
+  })();
+</script>
+
+</body>
+</html>
